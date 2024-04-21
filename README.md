@@ -1,11 +1,5 @@
 # SafeStreet IP Analyzer
 
-Absolutely, a well-crafted README file is crucial for engaging the community and encouraging users to try out your project. Here's a detailed README template for your project "SafeStreet IP Analyzer":
-
----
-
-# SafeStreet IP Analyzer
-
 Welcome to the SafeStreet IP Analyzer - your go-to open-source tool for checking the safety and integrity of IP addresses. Our easy-to-use platform provides detailed insights into potentially malicious activities associated with IP addresses and helps in enhancing the cybersecurity posture of individuals and communities alike.
 
 ## Features
