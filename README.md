@@ -17,13 +17,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-- flask==1.1.2
-- requests==2.25.1
-- scikit-learn==0.24.1
-- waitress==2.0.0
-- numpy==1.20.1
-- pytest==6.2.2
-- gunicorn==20.0.4
+- flask: 1.1.2
+- requests: 2.25.1
+- scikit-learn: 0.24.1
+- waitress: 2.0.0
+- numpy: 1.20.1
+- pytest: 6.2.2
+- gunicorn: 20.0.4
 
 
 ### Installing
