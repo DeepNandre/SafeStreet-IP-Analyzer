@@ -8,13 +8,37 @@
     <title>IP Analyzer</title>
 </head>
 <body>
-    <div class="container">
-        <h1 class="title">IP Analyzer</h1>
-        <p class="subtitle">Enter an IP Address to analyze its security profile:</p>
-        <form action="{{ url_for('result') }}" method="POST" class="ip-form">
-            <input type="text" id="ip_address" name="ip_address" placeholder="192.168.1.1" required>
-            <button type="submit">Analyze</button>
-        </form>
-    </div>
+    <header class="site-header">
+        <h1>SafeStreet IP</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="aboutus.html">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="main-content">
+        <section class="hero">
+            <div class="call-to-action">
+                <h2>Analyze IP Addresses Instantly</h2>
+                <p>Enter an IP address below to retrieve its security profile, location, and more.</p>
+                <form action="{{ url_for('result') }}" method="POST">
+                    <input type="text" id="ip_address" name="ip_address" placeholder="Enter IP address" required>
+                    <button type="submit">Analyze</button>
+                </form>
+            </div>
+        </section>        
+        <section class="info">
+            <article>
+                <h3>Why Analyze IP?</h3>
+                <p>Understanding the security and location of an IP can protect your network from threats and breaches.</p>
+            </article>
+        </section>
+    </main>
+    <footer class="site-footer">
+        <p>© 2024 IP Analyzer. All rights reserved.</p>
+    </footer>
 </body>
 </html>
+

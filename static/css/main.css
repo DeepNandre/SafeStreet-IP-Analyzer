@@ -1,55 +1,81 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #1a1a2e;
-    color: #fff;
+/* Base styles */
+body, html {
     margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    background: #121212;
+}
+
+/* Header styles */
+.site-header {
+    background: #1a1a2e;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-header h1 {
+    margin: 0;
+}
+
+.site-header nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.site-header nav ul li {
+    display: inline;
+    margin-left: 20px;
+}
+
+.site-header nav ul li a {
+    color: #4287f5;
+    text-decoration: none;
+}
+
+/* Main content styles */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
+}
+
+.hero {
+    text-align: center;
+    padding: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
-.container {
-    width: 100%;
+.call-to-action {
     max-width: 600px;
-    text-align: center;
+    margin: auto;
+    text-align: center; /* Aligns all text inside the call-to-action to the center */
 }
 
-.title {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.subtitle {
-    font-size: 1rem;
-    margin-bottom: 2rem;
-    color: #a9a9a9;
-}
-
-.ip-form {
-    background-color: #16213e;
-    border-radius: 8px;
-    padding: 20px;
+.call-to-action h2, .call-to-action p, .call-to-action form {
+    margin: 20px 0; /* Adds vertical spacing between elements */
 }
 
 input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 2px solid #4e0eff;
-    border-radius: 4px;
-    background-color: transparent;
-    color: #fff;
+    display: block; /* Makes the input block level, causing it to stack vertically */
+    width: 100%; /* Ensures it takes up the full width of its container */
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px auto 10px auto; /* Centers element horizontally by setting auto margins on the sides */
 }
 
 button {
-    width: 100%;
-    padding: 10px 0;
+    width: 35%; /* Makes the button smaller than the input field */
+    padding: 10px;
+    margin: 10px auto; /* Centers the button horizontally and adds space above and below */
     background-color: #4e0eff;
     border: none;
-    border-radius: 4px;
-    color: white;
+    border-radius: 25px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -59,12 +85,47 @@ button:hover {
     background-color: #3e06db;
 }
 
-input::placeholder {
-    color: #b1b1b1;
+/* Footer styles */
+.site-footer {
+    background: #1a1a2e;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
 
+/* Responsive adjustments */
 @media (min-width: 768px) {
-    .container {
-        padding: 40px;
+    .call-to-action {
+        display: block; /* Keeps call-to-action elements in block format for larger screens */
     }
+
+    input[type="text"], button {
+        max-width: 500px; /* Limits the maximum width of input to maintain aesthetics on wider screens */
+    }
+}
+
+/* Info section styles */
+.info {
+    background-color: #16213e; /* Optional: adds a distinct background color */
+    border-radius: 8px; /* Optional: rounds the corners for a smoother look */
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%; /* Adjusts the width as necessary */
+    max-height: 300px; /* Set a maximum height for the content area */
+    overflow-y: auto; /* Enables vertical scrolling */
+    text-align: center; /* Keeps text centered */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Optional: adds shadow for depth */
+}
+
+/* Additional styles to enhance readability and aesthetics */
+.info h3 {
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.info p {
+    color: #e0e0e0; /* Lighter grey for better readability */
+    line-height: 1.5; /* Improves line spacing */
 }
