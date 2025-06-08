@@ -11,7 +11,7 @@ ipinfo_api_token = os.getenv("IPINFO_API_TOKEN", "your_ipinfo_api_token")
 threat_intelligence_api_token = os.getenv("THREAT_INTELLIGENCE_API_TOKEN", "your_threat_intelligence_api_token")
 
 # Define the function for threat intelligence check outside of the route
-def threat_intelligence_api_token(ip_address, api_token):
+def fetch_threat_info(ip_address, api_token):
     # Make sure to use the actual threat intelligence API endpoint
     url = f"https://api.abuseipdb.com/ip/{ip_address}"
     headers = {'Authorization': f'Bearer {api_token}'}
@@ -34,7 +34,7 @@ def result():
         ip_address = request.form["ip_address"]
         
         # Retrieve the IP address information from ipinfo
-        response = requests.get(f"https://ipinfo.io/{ip_address}?token=your_ipinfo_api_token")
+        response = requests.get(f"https://ipinfo.io/{ip_address}?token={ipinfo_api_token}")
         if response.status_code == 200:
             data = response.json()
             region = data.get("region", "Not Available")
@@ -42,7 +42,7 @@ def result():
             country = data.get("country", "Not Available")
             
             # Check IP against threat intelligence API
-            threat_info = threat_intelligence_api_token(ip_address, "your_threat_intelligence_api_token")
+            threat_info = fetch_threat_info(ip_address, threat_intelligence_api_token)
             
             # Assuming the threat info contains a key "is_malicious" for simplicity
             is_malicious = threat_info.get("is_malicious") if threat_info else False
