@@ -65,6 +65,34 @@ These instructions will get you a copy of the project up and running on your loc
    python3 app.py
    ```
 
+## Deployment
+
+Netlify only serves static files and does not run the Flask server that powers
+this project. Deploying the repository directly to Netlify will therefore result
+in a 404 page. Use a platform that supports Python web services, such as
+[Render](https://render.com) or Heroku.
+
+### Deploying to Render
+
+1. Create an account at [Render](https://render.com) and click **New > Web Service**.
+2. Connect your GitHub repository and select the branch to deploy.
+3. For the build command enter:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Set the start command to:
+
+   ```bash
+   gunicorn app:app
+   ```
+
+5. Add the environment variables `IPINFO_API_TOKEN` and
+   `THREAT_INTELLIGENCE_API_TOKEN` in the service settings.
+6. Click **Create Web Service** to trigger the initial deployment. Render will
+   build the container and provide a public URL where the Flask application runs.
+
 ## How to Use
 
 1. **Enter the IP Address**: Simply type the IP address you wish to analyze into the input field.
