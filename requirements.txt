@@ -1,5 +1,5 @@
-flask
-requests
+flask>=2.0
+httpx
 scikit-learn
 waitress
 numpy
