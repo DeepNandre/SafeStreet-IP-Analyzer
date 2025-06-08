@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
-import requests
+import httpx
+import asyncio
 from sklearn.cluster import KMeans
 import numpy as np
 import os
@@ -8,42 +9,48 @@ app = Flask(__name__)
 
 # Securely set the API token using environment variables
 ipinfo_api_token = os.getenv("IPINFO_API_TOKEN", "your_ipinfo_api_token")
-threat_intelligence_api_token = os.getenv("THREAT_INTELLIGENCE_API_TOKEN", "your_threat_intelligence_api_token")
+threat_intelligence_api_token = os.getenv(
+    "THREAT_INTELLIGENCE_API_TOKEN", "your_threat_intelligence_api_token"
+)
 
-# Define the function for threat intelligence check outside of the route
-def threat_intelligence_api_token(ip_address, api_token):
-    # Make sure to use the actual threat intelligence API endpoint
+
+async def fetch_threat_intelligence(ip_address: str, api_token: str):
+    """Query the threat intelligence API for an IP address."""
     url = f"https://api.abuseipdb.com/ip/{ip_address}"
-    headers = {'Authorization': f'Bearer {api_token}'}
-    response = requests.get(url, headers=headers)
+    headers = {"Authorization": f"Bearer {api_token}"}
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url, headers=headers)
     if response.status_code == 200:
-        threat_info = response.json()  # Assuming JSON response
-        # Process the response and extract the necessary information
-        # ...
-    else:
-        threat_info = None  # Handle error or no threat found
-    return threat_info
+        return response.json()  # Assuming JSON response
+    return None
+
+
+async def fetch_ipinfo(ip_address: str, api_token: str):
+    """Retrieve IP address information from IPinfo."""
+    url = f"https://ipinfo.io/{ip_address}?token={api_token}"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+    if response.status_code == 200:
+        return response.json()
+    return None
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
 @app.route("/result", methods=["POST"])
-def result():
+async def result():
     try:
         ip_address = request.form["ip_address"]
-        
-        # Retrieve the IP address information from ipinfo
-        response = requests.get(f"https://ipinfo.io/{ip_address}?token=your_ipinfo_api_token")
-        if response.status_code == 200:
-            data = response.json()
+
+        ipinfo_task = fetch_ipinfo(ip_address, ipinfo_api_token)
+        threat_task = fetch_threat_intelligence(ip_address, threat_intelligence_api_token)
+        data, threat_info = await asyncio.gather(ipinfo_task, threat_task)
+        if data:
             region = data.get("region", "Not Available")
             city = data.get("city", "Not Available")
             country = data.get("country", "Not Available")
-            
-            # Check IP against threat intelligence API
-            threat_info = threat_intelligence_api_token(ip_address, "your_threat_intelligence_api_token")
-            
+
             # Assuming the threat info contains a key "is_malicious" for simplicity
             is_malicious = threat_info.get("is_malicious") if threat_info else False
 
@@ -64,7 +71,7 @@ def result():
                 is_malicious=is_malicious
             )
         else:
-            return f"Error fetching data: {response.status_code}", 500
+            return "Error fetching data from IPinfo", 500
     except Exception as e:
         return str(e), 500
 
