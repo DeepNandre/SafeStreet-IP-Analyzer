@@ -3,6 +3,7 @@ import requests
 from sklearn.cluster import KMeans
 import numpy as np
 import os
+import ipaddress
 
 app = Flask(__name__)
 
@@ -31,7 +32,16 @@ def home():
 @app.route("/result", methods=["POST"])
 def result():
     try:
-        ip_address = request.form["ip_address"]
+        ip_address = request.form["ip_address"].strip()
+
+        # Validate the IP address using Python's ipaddress module
+        try:
+            ipaddress.ip_address(ip_address)
+        except ValueError:
+            return (
+                "Invalid IP address format. Please provide a valid IPv4 or IPv6 address.",
+                400,
+            )
         
         # Retrieve the IP address information from ipinfo
         response = requests.get(f"https://ipinfo.io/{ip_address}?token=your_ipinfo_api_token")
